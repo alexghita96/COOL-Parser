@@ -1,0 +1,94 @@
+Program   ::= Class ; Program1
+Program1  ::= eof
+            | Program
+Class     ::= class type_id Class1
+Class1    ::= { Class2
+            | inherits type_id { Class2
+Class2    ::= }
+            | Feature Features
+Features ::= }
+            | Feature Features
+Feature   ::= obj_id Feature1
+Feature1  ::= ( Feature2
+            | : type_id Feature4
+Feature2  ::= Formals Feature3
+            | ) Feature3
+Feature3  ::= : type_id { ExprA } ;
+Feature4  ::= ;
+            | <- ExprA ;
+Formals   ::= Formal Formals1
+Formals1  ::= , Formals
+            | )
+Formal    ::= obj_id : type_id
+ExprA     ::= obj_id <- ExprA
+            | ExprB
+ExprB     ::= not ExprB
+            | ExprC
+ExprC     ::= ExprD ExprC'
+ExprC'    ::= < ExprC
+            | <= ExprC
+            | = Exprc
+            | e
+ExprD     ::= ExprE ExprD'
+ExprD'    ::= + ExprD
+            | - ExprD
+            | e
+ExprE     ::= ExprF ExprE'
+ExprE'    ::= * ExprE
+            | / ExprE
+            | e
+ExprF     ::= isvoid ExprF
+            | ExprG
+ExprG     ::= ~ ExprG
+            | ExprH
+ExprH     ::= ExprI EExprH'
+ExprH'    ::= @ type_id . obj_id ( ExprH"  EExprH'
+ExprH"    ::= )
+            | Exprs
+EExprH'   ::= ExprH'
+            | e
+ExprI     ::= ExprJ EExprI'
+ExprI'    ::= . obj_id ( EExprI'
+ExprI"    ::= )
+            | Exprs
+EExprI'   ::= ExprI'
+            | e
+ExprJ     ::= ( ExprA )
+            | ExprK
+ExprK     ::= obj_id ExprK1
+            | if ExprA then ExprA else ExprA fi
+            | while ExprA loop ExprA pool
+            | { ExprA ; ExprK3
+            | let Assign ExprK4
+            | case ExprA of Arrow ; ExprK5
+            | new type_id
+            | integer
+            | string
+            | true
+            | false
+ExprK1    ::= ( ExprK2
+            | e
+ExprK2    ::= )
+            | Exprs )
+ExprK3    ::= }
+            | Exprs'
+ExprK4    ::= in ExprA
+            | Assigns ExprA
+ExprK5    ::= esac
+            | Arrows
+Exprs     ::= ExprA Exprs1
+Exprs1    ::= , Exprs
+            | )
+Exprs'    ::= ExprA ; Exprs'1
+Exprs'1   ::= Exprs'
+            | }
+Assigns   ::= , Assign Assigns1
+Assigns1  ::= Assigns
+            | in
+Assign    ::= obj_id : type_id Assign1
+Assign1   ::= <- ExprA Assigns1
+            | Assigns1
+Arrows    ::= Arrow ; Arrows1
+Arrows1   ::= Arrows
+            | esac
+Arrow     ::= obj_id : type_id => ExprA

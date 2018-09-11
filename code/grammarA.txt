@@ -1,0 +1,58 @@
+Program   ::= Class ; eof
+            | Class ; Program
+Class     ::= class type_id { Features }
+            | class type_id inherits type_id { Features }
+Features  ::= Feature ; Features
+            | e
+Feature   ::= obj_id ( Formals ) : type_id { ExprA }
+            | Assign
+Formals   ::= Formal , Formals
+            | e
+Formal    ::= obj_id : type_id
+ExprA     ::= obj_id <- ExprA
+            | ExprB
+ExprB     ::= not ExprB
+            | ExprC
+ExprC     ::= ExprD < ExprC
+            | ExprD <= ExprC
+            | ExprD = ExprC
+            | ExprD
+ExprD     ::= ExprE + ExprD
+            | ExprE - ExprD
+            | ExprE
+ExprE     ::= ExprF * ExprE
+            | ExprF / ExprE
+            | ExprF
+ExprF     ::= isvoid ExprF
+            | ExprG
+ExprG     ::= ~ ExprG
+            | ExprH
+ExprH     ::= ExprH @ type_id . obj_id ( Exprs )
+            | ExprI
+ExprI     ::= ExprI . obj_id ( Exprs )
+            | ExprJ
+ExprJ     ::= ( ExprA )
+            | ExprK
+ExprK     ::= obj_id ( Exprs )
+            | if ExprA then ExprA else ExprA fi
+            | while ExprA loop ExprA pool
+            | { ExprA ; Exprs' }
+            | let Assign Assigns in ExprA
+            | case ExprA of Arrow ; Arrows esac
+            | new type_id
+            | obj_id
+            | integer
+            | string
+            | true
+            | false
+Exprs     ::= ExprA , Exprs
+            | e
+Exprs'    ::= ExprA ; Exprs'
+            | e
+Assigns   ::= , Assign Assigns
+            | e
+Assign    ::= obj_id : type_id
+            | obj_id : type_id <- ExprA
+Arrows    ::= Arrow ; Arrows
+            | e
+Arrow     ::= obj_id : type_id => ExprA

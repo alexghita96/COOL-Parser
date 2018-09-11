@@ -1,0 +1,77 @@
+Program0  ::= class type_id Class0 Class1 ; Program1
+Program1  ::= eof
+            | Program0
+Class0    ::= {
+            | inherits type_id {
+Class1    ::= }
+            | obj_id Feature0 Class1
+Feature0  ::= ( Feature1 : type_id { ExprA } ;
+            | : type_id Feature2
+Feature1  ::= obj_id : type_id Formals
+            | )
+Feature2  ::= ;
+            | <- ExprA ;
+Formals   ::= , obj_id : type_id Formals
+            | )
+ExprA     ::= obj_id <- ExprA
+            | ExprB
+ExprB     ::= not ExprB
+            | ExprC0
+ExprC0    ::= ExprD0 ExprC1
+ExprC1    ::= < ExprC0
+            | <= ExprC0
+            | = ExprC0
+            | e
+ExprD0    ::= ExprE0 ExprD1
+ExprD1    ::= + ExprD0
+            | - ExprD0
+            | e
+ExprE0    ::= ExprF ExprE1
+ExprE1    ::= * ExprE0
+            | / ExprE0
+            | e
+ExprF     ::= isvoid ExprF
+            | ExprG
+ExprG     ::= ~ ExprG
+            | ExprH0
+ExprH0    ::= ExprI0 ExprH1
+ExprH1    ::= @ type_id . obj_id ( ExprH2 ExprH1
+            | e
+ExprH2    ::= )
+            | Exprs0
+ExprI0    ::= ExprJ ExprI1
+ExprI1   ::= . obj_id ( ExprI2 ExprI1
+            | e
+ExprI2    ::= )
+            | Exprs0
+ExprJ     ::= ( ExprA )
+            | ExprK0
+ExprK0    ::= obj_id ExprK1
+            | if ExprA then ExprA else ExprA fi
+            | while ExprA loop ExprA pool
+            | { ExprA ; ExprK3
+            | let obj_id : type_id ExprK4
+            | case ExprA of obj_id : type_id => ExprA ; ExprK6
+            | new type_id
+            | integer
+            | string
+            | true
+            | false
+ExprK1    ::= ( ExprK2
+            | e
+ExprK2    ::= )
+            | Exprs0
+ExprK3    ::= }
+            | Exprs'0
+ExprK4    ::= <- ExprA ExprK5
+            | ExprK5
+ExprK5    ::= , obj_id : type_id ExprK4
+            | in ExprA
+ExprK6    ::= obj_id : type_id => ExprA ; ExprK6
+            | esac
+Exprs0    ::= ExprA Exprs1
+Exprs1    ::= , Exprs0
+            | )
+Exprs'0   ::= ExprA ; Exprs'1
+Exprs'1   ::= }
+            | Exprs'0
